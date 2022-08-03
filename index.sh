@@ -61,7 +61,7 @@ function Install {
     Write-Output "To see the command-line options run:"
     Write-Output "  $Executable help"
     Write-Output "To start an in-memory database server run:"
-    Write-Output "  $Executable start --log-level debug --path memory"
+    Write-Output "  $Executable start --log debug --user root --pass root memory"
     Write-Output "For help with getting started visit:"
     Write-Output "  https://surrealdb.com/docs"
     Write-Output ""
