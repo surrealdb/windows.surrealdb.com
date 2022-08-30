@@ -37,23 +37,23 @@ function Install {
     
     # Fetch the latest SurrealDB version
     Write-Output "Fetching the latest database version..."
-    $Version = (Invoke-WebRequest $VersUrl -UseBasicParsing).Content
-
+    $Version = (Invoke-WebRequest $VersUrl -UseBasicParsing).Content.trim()
+    
     # Compute the current system architecture
     Write-Output "Fetching the host system architecture..."
-    $Arch = "windows-" + $env:PROCESSOR_ARCHITECTURE.ToLower()
-    
+    $Arch = "windows-" + "amd64"
+
     # Define the latest SurrealDB download url
     $DownloadUrl = "$BaseUrl/${Version}/surreal-${Version}.${Arch}.exe"
 
     # Download and unarchive the latest SurrealDB binary
     Write-Output "Installing surreal-$Version for $Arch..."
-    $Directory = Join-Path $env:USERPROFILE "surrealdb"
+    $Directory = Join-Path $HOME "surrealdb"
     $Executable = Join-Path $Directory "surrealdb.exe"
     New-Item $Directory -Force -ItemType Directory | Out-Null
     Invoke-WebRequest $DownloadUrl -OutFile $Executable -UseBasicParsing
     
-    Write-Output ""    
+    Write-Output ""
     Write-Output "SurrealDB successfully installed in:"
     Write-Output "  $Executable"
     Write-Output ""

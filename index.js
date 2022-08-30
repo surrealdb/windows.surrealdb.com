@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-const SCRIPT = fs.readFileSync('./index.sh', 'utf8');
+const SCRIPT = fs.readFileSync('./index.ps1', 'utf8');
 
 exports.main = async (event) => {
 	
