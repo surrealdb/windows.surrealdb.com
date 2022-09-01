@@ -34,6 +34,9 @@ function Install {
     
     # Specify the base url for version info
     $VersUrl = "https://version.surrealdb.com"
+
+    # Ensure proper transport layer security
+    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
     
     # Fetch the latest SurrealDB version
     Write-Output "Fetching the latest database version..."
