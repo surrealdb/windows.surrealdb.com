@@ -49,12 +49,38 @@ function Install {
     # Define the latest SurrealDB download url
     $DownloadUrl = "$BaseUrl/${Version}/surreal-${Version}.${Arch}.exe"
 
-    # Download and unarchive the latest SurrealDB binary
     Write-Output "Installing surreal-$Version for $Arch..."
-    $Directory = Join-Path $HOME "surrealdb"
-    $Executable = Join-Path $Directory "surrealdb.exe"
-    New-Item $Directory -Force -ItemType Directory | Out-Null
-    Invoke-WebRequest $DownloadUrl -OutFile $Executable -UseBasicParsing
+
+    try {
+
+        $Directory = Join-Path "C:" "Program Files"
+        $Directory = Join-Path $Directory "SurrealDB"
+        $Executable = Join-Path $Directory "surreal.exe"
+
+        # Create a new directory for the SurrealDB binary
+        New-Item $Directory -Force -ItemType Directory | Out-Null
+
+        # Download and install the latest SurrealDB binary
+        Invoke-WebRequest $DownloadUrl -OutFile $Executable -UseBasicParsing
+
+        # Update the user environment variable to include SurrealDB
+        [Environment]::SetEnvironmentVariable("Path", [Environment]::GetEnvironmentVariable("Path", "User") + ";" + $Directory, "User")
+
+    } catch {
+
+        $Directory = Join-Path $HOME "SurrealDB"
+        $Executable = Join-Path $Directory "surreal.exe"
+
+        # Create a new directory for the SurrealDB binary
+        New-Item $Directory -Force -ItemType Directory | Out-Null
+        
+        # Download and install the latest SurrealDB binary
+        Invoke-WebRequest $DownloadUrl -OutFile $Executable -UseBasicParsing
+
+        # Update the user environment variable to include SurrealDB
+        [Environment]::SetEnvironmentVariable("Path", [Environment]::GetEnvironmentVariable("Path", "User") + ";" + $Directory, "User")
+
+    }
     
     Write-Output ""
     Write-Output "SurrealDB successfully installed in:"
@@ -62,9 +88,9 @@ function Install {
     Write-Output ""
 
     Write-Output "To see the command-line options run:"
-    Write-Output "  $Executable help"
+    Write-Output "  surreal help"
     Write-Output "To start an in-memory database server run:"
-    Write-Output "  $Executable start --log debug --user root --pass root memory"
+    Write-Output "  surreal start --log debug --user root --pass root memory"
     Write-Output "For help with getting started visit:"
     Write-Output "  https://surrealdb.com/docs"
     Write-Output ""
