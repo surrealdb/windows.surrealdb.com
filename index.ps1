@@ -10,6 +10,11 @@
 # automatically, or otherwise it will prompt the user to specify 
 # the desired install location.
 
+Param(
+    [Parameter(Mandatory=$false)]
+    [Switch]$Nightly
+)
+
 function Install {
     
     Write-Output ""
@@ -39,8 +44,12 @@ function Install {
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
     
     # Fetch the latest SurrealDB version
-    Write-Output "Fetching the latest database version..."
-    $Version = (Invoke-WebRequest $VersUrl -UseBasicParsing).Content.trim()
+    if ($Nightly -eq $false) {
+        Write-Output "Fetching the latest database version..."
+        $Version = (Invoke-WebRequest $VersUrl -UseBasicParsing).Content.trim()
+    } else {
+        $Version = "nightly"
+    }
     
     # Compute the current system architecture
     Write-Output "Fetching the host system architecture..."
