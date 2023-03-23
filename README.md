@@ -12,3 +12,9 @@ If you prefer not using a package manager or Docker, then the easiest and prefer
 ```bash
 iwr https://windows.surrealdb.com -useb | iex
 ```
+
+#### Install nightly on Windows
+
+```bash
+iex "& { $(irm https://windows.surrealdb.com) } -Nightly"
+```
