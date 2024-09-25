@@ -77,7 +77,7 @@ function Install {
 
     } catch {
 
-        $Directory = Join-Path $HOME "SurrealDB"
+        $Directory = Join-Path $env:LOCALAPPDATA "SurrealDB"
         $Executable = Join-Path $Directory "surreal.exe"
 
         # Create a new directory for the SurrealDB binary
